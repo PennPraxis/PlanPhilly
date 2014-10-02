@@ -8,7 +8,7 @@ L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 
-var rentURL = "/static/data/medianRent.geojson";
+var rentURL = "/PennPhilly/static/data/medianRent.geojson";
 
 $.getJSON(rentURL, function(data) {
     L.geoJson(data, {
