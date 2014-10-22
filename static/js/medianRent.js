@@ -7,10 +7,10 @@ addLayer(L.mapbox.featureLayer()
     .on('ready', addLayer), '1990', 1);
 addLayer(L.mapbox.featureLayer()
     .loadURL('static/data/medianRent.geojson')
-    .on('ready', addLayer), '2000', 2);
+    , '2000', 2);
 addLayer(L.mapbox.featureLayer()
     .loadURL('static/data/medianRent.geojson')
-    .on('ready', addLayer), '2010', 3);
+    , '2010', 3);
 
 //add tiles
 var stamenLayer = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
@@ -52,10 +52,10 @@ function addLayer(layer, name, zIndex) {
         e.stopPropagation();
 
         if (this.className == 'active' && map.hasLayer(layer)) {
-            map.removeLayer(layer);
+            map.addLayer(layer);
             this.className = 'active';
         } else {
-            map.addLayer(layer);
+            map.removeLayer(layer);
             this.className = '';
         }
     };
