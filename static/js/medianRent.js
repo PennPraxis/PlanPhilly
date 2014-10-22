@@ -1,40 +1,65 @@
-//add map & tracts variables
-var map = L.map('basic-map').setView([39.952299, -75.163256], 11);
-var rentURL = "/PlanPhilly/static/data/medianRent.geojson";
-//style tracts
-function getColor(d) {
-	return d > 1600 ? '#00441b' :
-			d > 1400 ? '#006d2c' :
-	       d > 1200  ? '#238b45' :
-	       d > 1000  ? '#41ab5d' :
-	       d > 800  ? '#74c476' :
-	       d > 600  ? '#a1d99b' :
-	       d > 400   ? '#c7e9c0' :
-	       d > 200   ? '#e5f5e0' :
-	                  '#f7fcf5';
-}
+L.mapbox.accessToken = 'pk.eyJ1IjoiaGFtaGFuZHMiLCJhIjoiMksybk92QSJ9.TOMmDM4uWCY65kSLpS_Nww';
+var map = L.mapbox.map('map').setView([39.952299, -75.163256], 11);
+var layers = document.getElementById('menuUI');
 
-function style(feature) {
-    return {
-        fillColor: getColor(feature.properties.MRENT90_A),
-        weight: 1,
-        color: 'white',
-        opacity: 1,
-        fillOpacity: 0.85
-    };
-}
-
+addLayer(L.mapbox.featureLayer()
+    .loadURL('static/data/medianRent.geojson')
+    .on('ready', addLayer), '1990', 1);
+addLayer(L.mapbox.featureLayer()
+    .loadURL('static/data/medianRent.geojson')
+    .on('ready', addLayer), '2000', 2);
+addLayer(L.mapbox.featureLayer()
+    .loadURL('static/data/medianRent.geojson')
+    .on('ready', addLayer), '2010', 3);
 
 //add tiles
-L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
-	attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
-	subdomains: 'abcd',
-	minZoom: 0,
-	maxZoom: 20
+var stamenLayer = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
+  attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
 }).addTo(map);
 //add tracts
-$.getJSON(rentURL, function(data) {
-    L.geoJson(data, {
-    	style: style
-    }).addTo(map)
+/*
+var tractsURL = "/static/data/medianRent.geojson";
+
+$.getJson(tractsURL, function(data) {
+    var ninety = L.geoJson(data, {
+        style: function(feature) {
+            return {
+                fillColor: getColor(feature.properties.MRENT90_A),
+                weight: 1,
+                color: 'white',
+                opacity: 1,
+                fillOpacity: 0.85
+            };
+        }
+    });
 });
+*/
+//add layers to ui
+
+//add control
+function addLayer(layer, name, zIndex) {
+    layer
+        .setZIndex(zIndex)
+        .addTo(map);
+
+ var link = document.createElement('a');
+        link.href = '#';
+        link.className = 'active';
+        link.innerHTML = name;
+
+    link.onclick = function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (this.className == 'active' && map.hasLayer(layer)) {
+            map.removeLayer(layer);
+            this.className = 'active';
+        } else {
+            map.addLayer(layer);
+            this.className = '';
+        }
+    };
+
+    layers.appendChild(link);
+}
+
