@@ -1,8 +1,7 @@
-//test comment
+//init map
 L.mapbox.accessToken = 'pk.eyJ1IjoiaGFtaGFuZHMiLCJhIjoiMksybk92QSJ9.TOMmDM4uWCY65kSLpS_Nww';
 var map = L.mapbox.map('map').setView([39.952299, -75.163256], 11);
-var layers = document.getElementById('menuUI');
-
+/* style functions
 function getColor(d) {
     return d > 1600 ? '#00441b' :
             d > 1400 ? '#006d2c' :
@@ -44,29 +43,14 @@ function style12(feature) {
         fillOpacity: 0.85
     };
 };
-
-var nineteenNinety = L.mapbox.featureLayer()
-    .loadURL('static/data/medianRent.geojson')
-    .on('ready', addLayer);
-
-twoThousand = L.mapbox.featureLayer()
-    .loadURL('static/data/medianRent.geojson')
-    .on('ready', addLayer);
-
-twoThousandTwelve = L.mapbox.featureLayer()
-    .loadURL('static/data/medianRent.geojson')
-    .on('ready', addLayer);
-
-
-addLayer(nineteenNinety, '1990', 1);
-addLayer(twoThousand, '2000', 2);
-addLayer(twoThousandTwelve, '2012', 3);
-
+*/
 //add tiles
 var stamenLayer = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
   attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
 }).addTo(map);
-
+//add control
+/*
+>>>>>>> 1a80cd9fdc7d212a2654711b475767d87bcea2cc
 function addLayer(layer, name, zIndex) {
     layer
         .setZIndex(zIndex)
@@ -92,4 +76,14 @@ function addLayer(layer, name, zIndex) {
 
     layers.appendChild(link);
 }
+*/
 
+L.control.layers({
+      '1990': L.mapbox.featureLayer()
+        .loadURL('static/data/medianRent.geojson').addTo(map),
+      '2000': L.mapbox.featureLayer()
+        .loadURL('static/data/medianRent.geojson'),
+      '2012': L.mapbox.featureLayer()
+        .loadURL('static/data/medianRent.geojson')
+  },{}
+  ).addTo(map);
