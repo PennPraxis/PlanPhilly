@@ -40,6 +40,18 @@ function style12(feature) {
         fillOpacity: 0.9
     };
 };
+//mouseovers and highlights
+function toolTip90(feature, layer) {
+    layer.bindPopup("$" + parseInt(Math.round(feature.properties.MRENT90_A)).toLocaleString());
+}; 
+
+function toolTip00(feature, layer) {
+    layer.bindPopup("$" + parseInt(Math.round(feature.properties.MRENT00_A)).toLocaleString());
+}; 
+
+function toolTip12(feature, layer) {
+    layer.bindPopup("$" + parseInt(Math.round(feature.properties.MRENT12_A)).toLocaleString());
+}; 
 //add tiles
 var stamenLayer = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
   attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
@@ -47,20 +59,23 @@ var stamenLayer = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{
 //add control
 $.getJSON('static/data/medianRent.geojson', function(data) {
   var rent90 = L.geoJson(data, {
-    style: style90
+    style: style90,
+    onEachFeature: toolTip90
   })
   var rent00 = L.geoJson(data, {
-    style: style00
+    style: style00,
+    onEachFeature: toolTip00
   })
   var rent12 = L.geoJson(data, {
-    style: style12
+    style: style12,
+    onEachFeature: toolTip12
   })
   var baseLayers = {
   '1990': rent90.addTo(map),
   '2000': rent00,
   '2012': rent12
   };
-  L.control.layers(baseLayers,{}).addTo(map);
+  L.control.layers(baseLayers,{}, {collapsed: false}).addTo(map);
 });
 
 
