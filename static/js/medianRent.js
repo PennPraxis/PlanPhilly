@@ -1,6 +1,5 @@
 //init map
-L.mapbox.accessToken = 'pk.eyJ1IjoiaGFtaGFuZHMiLCJhIjoiMksybk92QSJ9.TOMmDM4uWCY65kSLpS_Nww';
-var map = L.mapbox.map('map').setView([39.992299, -75.163256], 11);
+var map = L.map('map').setView([39.992299, -75.163256], 11);
 //style functions
 function getColor(d) {
     return d > 1600 ? '#00441b' :
