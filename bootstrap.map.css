@@ -40,6 +40,10 @@ body {
   height:100%;
 }
 
+.dropdown:hover .dropdown-menu {
+    display: block;
+ }
+
 @media (max-width: 767px) {
   #map {
     height: 33%;
